@@ -1,0 +1,1014 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Frank's Pizza — Downtown Houston Since Forever</title>
+<style>
+
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=Oswald:wght@400;500;600;700&family=Caveat:wght@600;700&display=swap');
+
+:root{
+  --red: #A8201A;
+  --red-deep: #7A1612;
+  --cream: #F5EBD8;
+  --paper: #FFFCF5;
+  --ink: #221F1F;
+  --gold: #D9A330;
+  --gold-soft: #E9C77B;
+  --line: rgba(34,31,31,0.14);
+}
+
+*{margin:0;padding:0;box-sizing:border-box;}
+
+html{scroll-behavior:smooth;}
+
+body{
+  background:var(--cream);
+  color:var(--ink);
+  font-family:'Oswald', sans-serif;
+  font-weight:400;
+  overflow-x:hidden;
+}
+
+@media (prefers-reduced-motion: reduce){
+  *{animation-duration:0.01ms !important; animation-iteration-count:1 !important; transition-duration:0.01ms !important; scroll-behavior:auto !important;}
+}
+
+h1,h2,h3{
+  font-family:'Anton', sans-serif;
+  font-weight:400;
+  text-transform:uppercase;
+  letter-spacing:0.01em;
+  line-height:0.95;
+}
+
+a{color:inherit; text-decoration:none;}
+button{font-family:inherit; cursor:pointer;}
+
+::selection{background:var(--gold); color:var(--ink);}
+
+/* ---------- texture ---------- */
+.grain{
+  position:fixed; inset:0; pointer-events:none; z-index:9999; opacity:0.05; mix-blend-mode:multiply;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ---------- focus ---------- */
+a:focus-visible, button:focus-visible{
+  outline:3px solid var(--gold); outline-offset:3px;
+}
+
+/* ================= TOP BAR ================= */
+.topbar{
+  position:sticky; top:0; z-index:500;
+  background:var(--ink);
+  color:var(--paper);
+  font-size:0.72rem;
+  letter-spacing:0.12em;
+  text-transform:uppercase;
+  padding:7px 24px;
+  display:flex; justify-content:space-between; align-items:center;
+  font-weight:500;
+}
+.topbar .status-dot{
+  display:inline-block; width:7px; height:7px; border-radius:50%;
+  background:#5fae5f; margin-right:7px; box-shadow:0 0 0 0 rgba(95,174,95,0.6);
+  animation:pulse 2.2s infinite;
+}
+.topbar.closed .status-dot{background:#c0524a;}
+@keyframes pulse{
+  0%{box-shadow:0 0 0 0 rgba(95,174,95,0.5);}
+  70%{box-shadow:0 0 0 6px rgba(95,174,95,0);}
+  100%{box-shadow:0 0 0 0 rgba(95,174,95,0);}
+}
+.topbar a{border-bottom:1px solid rgba(245,252,245,0.4);}
+
+/* ================= NAV ================= */
+nav{
+  position:sticky; top:29px; z-index:499;
+  background:var(--paper);
+  border-bottom:3px solid var(--ink);
+  display:flex; align-items:center; justify-content:space-between;
+  padding:14px 28px;
+}
+.brand{
+  display:flex; align-items:center; gap:12px;
+}
+.brand-mark{
+  width:40px; height:40px;
+  position:relative;
+}
+.brand-name{
+  font-family:'Anton', sans-serif;
+  font-size:1.5rem;
+  letter-spacing:0.01em;
+}
+.brand-name span{color:var(--red);}
+.nav-links{
+  display:flex; gap:30px;
+  font-size:0.85rem;
+  letter-spacing:0.08em;
+  text-transform:uppercase;
+  font-weight:600;
+}
+.nav-links a{position:relative; padding-bottom:4px;}
+.nav-links a::after{
+  content:''; position:absolute; left:0; bottom:0; width:0; height:3px; background:var(--red);
+  transition:width 0.25s ease;
+}
+.nav-links a:hover::after{width:100%;}
+.nav-cta{
+  background:var(--red); color:var(--paper);
+  padding:10px 22px;
+  font-size:0.82rem; letter-spacing:0.08em; text-transform:uppercase; font-weight:700;
+  border:2px solid var(--ink);
+  box-shadow:3px 3px 0 var(--ink);
+  transition:transform 0.15s ease, box-shadow 0.15s ease;
+}
+.nav-cta:hover{transform:translate(-2px,-2px); box-shadow:5px 5px 0 var(--ink);}
+.nav-toggle{display:none;}
+
+@media (max-width:860px){
+  .nav-links{display:none;}
+  .nav-toggle{display:block; background:none; border:none; font-size:1.6rem; color:var(--ink);}
+}
+
+/* ================= HERO ================= */
+.hero{
+  position:relative;
+  background:var(--ink);
+  color:var(--paper);
+  padding:90px 28px 0;
+  overflow:hidden;
+  min-height:88vh;
+  display:flex; flex-direction:column;
+}
+.hero::before{
+  content:'';
+  position:absolute; inset:0;
+  background:
+    radial-gradient(circle at 80% 20%, rgba(168,32,26,0.35), transparent 55%),
+    radial-gradient(circle at 10% 85%, rgba(217,163,48,0.18), transparent 50%);
+  pointer-events:none;
+}
+.hero-inner{
+  position:relative; z-index:2;
+  display:grid; grid-template-columns:1.1fr 0.9fr;
+  gap:40px;
+  flex:1;
+  align-items:center;
+  max-width:1280px; margin:0 auto; width:100%;
+  padding-bottom:60px;
+}
+.hero-eyebrow{
+  display:inline-flex; align-items:center; gap:10px;
+  font-size:0.78rem; letter-spacing:0.22em; text-transform:uppercase;
+  color:var(--gold-soft); font-weight:600; margin-bottom:22px;
+}
+.hero-eyebrow::before{content:'';width:34px;height:2px;background:var(--gold-soft);}
+.hero h1{
+  font-size:clamp(3rem, 7vw, 6.4rem);
+  color:var(--paper);
+}
+.hero h1 .accent{color:var(--red); -webkit-text-stroke:2px var(--gold-soft); text-stroke:2px var(--gold-soft);}
+.hero-sub{
+  font-family:'Caveat', cursive;
+  font-size:1.9rem;
+  color:var(--gold-soft);
+  margin-top:14px;
+  font-weight:700;
+}
+.hero-desc{
+  margin-top:24px;
+  font-size:1.08rem;
+  line-height:1.6;
+  color:rgba(245,235,216,0.82);
+  max-width:480px;
+}
+.hero-actions{
+  margin-top:36px;
+  display:flex; gap:16px; flex-wrap:wrap;
+}
+.btn-primary{
+  background:var(--red);
+  color:var(--paper);
+  padding:16px 30px;
+  font-weight:700; letter-spacing:0.06em; text-transform:uppercase; font-size:0.92rem;
+  border:2px solid var(--gold-soft);
+  position:relative;
+  transition:transform 0.18s ease;
+}
+.btn-primary:hover{transform:translateY(-3px);}
+.btn-secondary{
+  background:transparent;
+  color:var(--paper);
+  padding:16px 30px;
+  font-weight:700; letter-spacing:0.06em; text-transform:uppercase; font-size:0.92rem;
+  border:2px solid rgba(245,252,245,0.4);
+  transition:border-color 0.18s ease, transform 0.18s ease;
+}
+.btn-secondary:hover{border-color:var(--paper); transform:translateY(-3px);}
+
+.hero-rating{
+  display:flex; align-items:center; gap:14px;
+  margin-top:34px;
+  font-size:0.88rem;
+  color:rgba(245,235,216,0.75);
+}
+.stars{color:var(--gold-soft); font-size:1.1rem; letter-spacing:2px;}
+
+/* the folding slice visual */
+.slice-stage{
+  position:relative;
+  height:480px;
+  display:flex; align-items:center; justify-content:center;
+}
+.slice-svg-wrap{
+  width:100%; max-width:420px;
+  filter:drop-shadow(0 30px 40px rgba(0,0,0,0.45));
+}
+.fold-label{
+  position:absolute; bottom:6px; left:50%; transform:translateX(-50%);
+  font-family:'Caveat', cursive; font-size:1.4rem; color:var(--gold-soft);
+  text-align:center;
+}
+
+@media (max-width:980px){
+  .hero-inner{grid-template-columns:1fr; text-align:center;}
+  .hero-eyebrow{margin-left:auto; margin-right:auto;}
+  .hero-eyebrow::before{display:none;}
+  .hero-desc{margin-left:auto; margin-right:auto;}
+  .hero-actions{justify-content:center;}
+  .hero-rating{justify-content:center;}
+  .slice-stage{height:340px;}
+}
+
+/* ================= MARQUEE ================= */
+.marquee{
+  background:var(--gold);
+  border-top:3px solid var(--ink);
+  border-bottom:3px solid var(--ink);
+  overflow:hidden;
+  white-space:nowrap;
+  padding:11px 0;
+}
+.marquee-track{
+  display:inline-flex;
+  animation:scroll 26s linear infinite;
+}
+@keyframes scroll{
+  0%{transform:translateX(0);}
+  100%{transform:translateX(-50%);}
+}
+.marquee span{
+  font-family:'Anton', sans-serif;
+  font-size:1rem;
+  letter-spacing:0.08em;
+  padding:0 28px;
+  color:var(--ink);
+}
+.marquee span::after{content:'★'; margin-left:28px; color:var(--red);}
+
+/* ================= SECTION SHARED ================= */
+section{padding:100px 28px;}
+.section-inner{max-width:1180px; margin:0 auto;}
+.section-head{
+  display:flex; justify-content:space-between; align-items:flex-end;
+  margin-bottom:54px; gap:24px; flex-wrap:wrap;
+}
+.section-tag{
+  font-size:0.78rem; letter-spacing:0.22em; text-transform:uppercase;
+  color:var(--red); font-weight:700; margin-bottom:10px; display:block;
+}
+.section-head h2{font-size:clamp(2.2rem, 4.5vw, 3.4rem);}
+.section-head p{max-width:420px; font-size:1rem; line-height:1.55; color:#534d45;}
+
+/* ================= ABOUT ================= */
+.about{background:var(--paper);}
+.about-grid{
+  display:grid; grid-template-columns:1fr 1fr; gap:60px; align-items:center;
+}
+.about-text p{
+  font-size:1.08rem; line-height:1.75; color:#3c3733; margin-bottom:20px;
+}
+.about-stats{
+  display:flex; gap:36px; margin-top:30px; flex-wrap:wrap;
+}
+.stat-num{
+  font-family:'Anton', sans-serif; font-size:2.6rem; color:var(--red); line-height:1;
+}
+.stat-label{
+  font-size:0.78rem; letter-spacing:0.08em; text-transform:uppercase; color:#6b6259; margin-top:6px;
+}
+.about-photo{
+  position:relative;
+  background:var(--ink);
+  border:3px solid var(--ink);
+  aspect-ratio:4/5;
+  display:flex; align-items:center; justify-content:center;
+  overflow:hidden;
+}
+.about-photo svg{width:78%;}
+.tape{
+  position:absolute; width:90px; height:34px; background:rgba(245,235,216,0.85);
+  top:-12px; left:50%; transform:translateX(-50%) rotate(-3deg);
+  box-shadow:0 3px 6px rgba(0,0,0,0.25);
+}
+
+@media (max-width:860px){
+  .about-grid{grid-template-columns:1fr;}
+  .about-photo{order:-1;}
+}
+
+/* ================= MENU ================= */
+.menu{background:var(--ink); color:var(--paper); position:relative;}
+.menu::before{
+  content:'';
+  position:absolute; top:0; left:0; right:0; height:14px;
+  background:repeating-linear-gradient(-45deg, var(--cream) 0 14px, transparent 14px 28px);
+}
+.menu .section-head p{color:rgba(245,235,216,0.65);}
+.menu .section-tag{color:var(--gold-soft);}
+
+.menu-tabs{
+  display:flex; gap:10px; margin-bottom:44px; flex-wrap:wrap;
+}
+.menu-tab{
+  background:transparent;
+  color:rgba(245,235,216,0.6);
+  border:2px solid rgba(245,235,216,0.25);
+  padding:9px 20px;
+  font-size:0.82rem; letter-spacing:0.06em; text-transform:uppercase; font-weight:600;
+  transition:all 0.2s ease;
+}
+.menu-tab.active{
+  background:var(--red); border-color:var(--red); color:var(--paper);
+}
+.menu-tab:hover:not(.active){border-color:var(--gold-soft); color:var(--gold-soft);}
+
+.menu-grid{
+  display:grid; grid-template-columns:repeat(2, 1fr); gap:0 56px;
+}
+.menu-item{
+  display:flex; justify-content:space-between; gap:16px;
+  padding:20px 0;
+  border-bottom:1px dashed rgba(245,235,216,0.22);
+}
+.menu-item.hidden{display:none;}
+.menu-item-name{
+  font-family:'Anton', sans-serif; font-size:1.05rem; letter-spacing:0.01em;
+  display:flex; align-items:center; gap:9px;
+}
+.badge{
+  font-family:'Oswald', sans-serif;
+  background:var(--gold); color:var(--ink);
+  font-size:0.6rem; letter-spacing:0.06em; text-transform:uppercase; font-weight:700;
+  padding:3px 8px; border-radius:2px;
+}
+.menu-item-desc{
+  font-size:0.85rem; color:rgba(245,235,216,0.5); margin-top:5px; font-weight:300;
+}
+.menu-item-price{
+  font-family:'Anton', sans-serif; font-size:1.05rem; color:var(--gold-soft); white-space:nowrap;
+}
+
+@media (max-width:760px){
+  .menu-grid{grid-template-columns:1fr;}
+}
+
+.menu-note{
+  margin-top:40px; padding-top:24px; border-top:3px solid rgba(245,235,216,0.2);
+  font-family:'Caveat', cursive; font-size:1.3rem; color:var(--gold-soft);
+}
+
+/* ================= SLICE DIVIDER (signature) ================= */
+.slice-divider{
+  height:90px;
+  background:var(--cream);
+  position:relative;
+  overflow:hidden;
+}
+.slice-divider svg{position:absolute; bottom:-1px; left:0; width:100%; height:100%;}
+
+/* ================= REVIEWS ================= */
+.reviews{background:var(--cream);}
+.review-grid{
+  display:grid; grid-template-columns:repeat(3, 1fr); gap:28px;
+}
+.review-card{
+  background:var(--paper);
+  border:2px solid var(--ink);
+  padding:28px 26px;
+  position:relative;
+  transition:transform 0.2s ease;
+}
+.review-card:hover{transform:translateY(-6px);}
+.review-card::before{
+  content:'"';
+  position:absolute; top:6px; left:18px;
+  font-family:'Anton', sans-serif; font-size:3.4rem; color:var(--red); opacity:0.18; line-height:1;
+}
+.review-stars{color:var(--gold); font-size:0.95rem; margin-bottom:14px; letter-spacing:2px;}
+.review-text{
+  font-size:0.96rem; line-height:1.6; color:#3c3733; margin-bottom:18px; position:relative; z-index:1;
+}
+.review-foot{
+  display:flex; justify-content:space-between; align-items:center;
+  font-size:0.78rem; letter-spacing:0.04em; text-transform:uppercase; color:#8a8175; font-weight:600;
+  border-top:1px solid var(--line); padding-top:14px;
+}
+
+@media (max-width:980px){.review-grid{grid-template-columns:1fr 1fr;}}
+@media (max-width:680px){.review-grid{grid-template-columns:1fr;}}
+
+.reviews-cta{
+  text-align:center; margin-top:50px;
+}
+.reviews-cta a{
+  font-weight:700; letter-spacing:0.06em; text-transform:uppercase; font-size:0.85rem;
+  border-bottom:2px solid var(--red); padding-bottom:6px;
+}
+
+/* ================= VISIT / MAP ================= */
+.visit{
+  background:var(--paper);
+}
+.visit-grid{
+  display:grid; grid-template-columns:1fr 1fr; gap:0;
+  border:3px solid var(--ink);
+}
+.visit-info{
+  padding:56px 48px;
+  background:var(--paper);
+}
+.visit-info h2{font-size:clamp(2rem, 4vw, 2.8rem); margin-bottom:30px;}
+.info-row{
+  display:flex; gap:18px; padding:18px 0; border-bottom:1px solid var(--line);
+}
+.info-row:first-of-type{border-top:1px solid var(--line);}
+.info-icon{
+  width:34px; flex-shrink:0; color:var(--red);
+}
+.info-label{font-size:0.74rem; letter-spacing:0.1em; text-transform:uppercase; color:#8a8175; margin-bottom:4px; font-weight:600;}
+.info-value{font-size:1rem; font-weight:500;}
+.hours-table{font-size:0.95rem; line-height:1.9;}
+.hours-table div{display:flex; justify-content:space-between; gap:20px;}
+.hours-table .day{color:#6b6259;}
+
+.visit-map{
+  position:relative;
+  background:var(--ink);
+  min-height:420px;
+  overflow:hidden;
+}
+.visit-map iframe{width:100%; height:100%; border:0; position:absolute; inset:0; filter:grayscale(0.3) contrast(1.05);}
+.map-pin-card{
+  position:absolute; bottom:24px; left:24px; right:24px;
+  background:var(--paper);
+  border:2px solid var(--ink);
+  padding:16px 20px;
+  box-shadow:5px 5px 0 rgba(0,0,0,0.4);
+  z-index:2;
+}
+.map-pin-card .pin-name{font-family:'Anton', sans-serif; font-size:1.1rem;}
+.map-pin-card .pin-addr{font-size:0.85rem; color:#6b6259; margin-top:3px;}
+
+@media (max-width:900px){
+  .visit-grid{grid-template-columns:1fr;}
+  .visit-info{padding:40px 28px;}
+}
+
+/* ================= FOOTER ================= */
+footer{
+  background:var(--ink); color:rgba(245,235,216,0.7);
+  padding:60px 28px 30px;
+}
+.footer-grid{
+  max-width:1180px; margin:0 auto;
+  display:grid; grid-template-columns:1.4fr 1fr 1fr; gap:40px;
+  padding-bottom:40px; border-bottom:1px solid rgba(245,235,216,0.15);
+}
+.footer-brand{font-family:'Anton', sans-serif; font-size:1.5rem; color:var(--paper); margin-bottom:14px;}
+.footer-brand span{color:var(--red);}
+.footer-desc{font-size:0.9rem; line-height:1.6; max-width:320px;}
+.footer-col h4{
+  font-size:0.78rem; letter-spacing:0.12em; text-transform:uppercase; color:var(--gold-soft);
+  margin-bottom:16px; font-family:'Oswald', sans-serif; font-weight:600;
+}
+.footer-col a{display:block; font-size:0.92rem; margin-bottom:11px; transition:color 0.2s ease;}
+.footer-col a:hover{color:var(--paper);}
+.footer-bottom{
+  max-width:1180px; margin:24px auto 0;
+  display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px;
+  font-size:0.78rem; color:rgba(245,235,216,0.45);
+}
+
+@media (max-width:760px){
+  .footer-grid{grid-template-columns:1fr; gap:30px;}
+}
+
+/* ================= MOBILE MENU PANEL ================= */
+.mobile-panel{
+  position:fixed; inset:0; background:var(--ink); z-index:1000;
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  gap:30px;
+  transform:translateY(-100%);
+  transition:transform 0.3s ease;
+}
+.mobile-panel.open{transform:translateY(0);}
+.mobile-panel a{
+  font-family:'Anton', sans-serif; font-size:2rem; color:var(--paper); text-transform:uppercase;
+}
+.mobile-close{
+  position:absolute; top:24px; right:28px; background:none; border:none; color:var(--paper); font-size:2rem;
+}
+
+</style>
+</head>
+<body>
+
+<div class="grain"></div>
+
+<!-- ============ TOP BAR ============ -->
+<div class="topbar" id="topbar">
+  <div><span class="status-dot"></span><span id="status-text">Open until 11 PM</span> · 417 Travis St, Downtown Houston</div>
+  <a href="tel:+17132255656">(713) 225-5656</a>
+</div>
+
+<!-- ============ NAV ============ -->
+<nav>
+  <div class="brand">
+    <svg class="brand-mark" viewBox="0 0 40 40" fill="none">
+      <path d="M20 3 L36 33 L4 33 Z" fill="#A8201A" stroke="#221F1F" stroke-width="2"/>
+      <circle cx="16" cy="24" r="2" fill="#D9A330"/>
+      <circle cx="24" cy="20" r="1.8" fill="#D9A330"/>
+      <circle cx="20" cy="29" r="1.6" fill="#D9A330"/>
+    </svg>
+    <div class="brand-name">FRANK'S<span>.</span></div>
+  </div>
+  <div class="nav-links">
+    <a href="#about">About</a>
+    <a href="#menu">Menu</a>
+    <a href="#reviews">Reviews</a>
+    <a href="#visit">Visit</a>
+  </div>
+  <a href="#order" class="nav-cta">Order Now</a>
+  <button class="nav-toggle" id="navToggle" aria-label="Open menu">☰</button>
+</nav>
+
+<div class="mobile-panel" id="mobilePanel">
+  <button class="mobile-close" id="mobileClose" aria-label="Close menu">✕</button>
+  <a href="#about">About</a>
+  <a href="#menu">Menu</a>
+  <a href="#reviews">Reviews</a>
+  <a href="#visit">Visit</a>
+  <a href="#order" style="color:#A8201A;">Order Now</a>
+</div>
+
+<!-- ============ HERO ============ -->
+<header class="hero">
+  <div class="hero-inner">
+    <div>
+      <div class="hero-eyebrow">Downtown Houston · Historic District · Since the '70s</div>
+      <h1>Giant Slices.<br>No <span class="accent">Fuss.</span></h1>
+      <div class="hero-sub">The fold is the whole point.</div>
+      <p class="hero-desc">New York–style pizza by the slice or the whole pie, served thin, hot, and big enough to need two hands — right on Travis Street since the neighborhood was still figuring itself out.</p>
+      <div class="hero-actions">
+        <a href="#order" class="btn-primary">Order Pickup</a>
+        <a href="#menu" class="btn-secondary">See the Menu</a>
+      </div>
+      <div class="hero-rating">
+        <span class="stars">★★★★★</span>
+        <span>4.6 from nearly 7,000 reviews</span>
+      </div>
+    </div>
+    <div class="slice-stage">
+      <div class="slice-svg-wrap" id="sliceWrap">
+        <svg viewBox="0 0 400 420" id="sliceSvg">
+          <defs>
+            <linearGradient id="crustGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#E8B854"/>
+              <stop offset="100%" stop-color="#C8893A"/>
+            </linearGradient>
+            <linearGradient id="cheeseGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#F3D27A"/>
+              <stop offset="100%" stop-color="#E3B14C"/>
+            </linearGradient>
+          </defs>
+          <g id="sliceGroup" style="transform-origin:200px 360px;">
+            <path d="M200 30 L370 360 Q200 400 30 360 Z" fill="url(#cheeseGrad)" stroke="#221F1F" stroke-width="4"/>
+            <path d="M30 360 Q200 400 370 360 L370 372 Q200 412 30 372 Z" fill="url(#crustGrad)" stroke="#221F1F" stroke-width="4"/>
+            <circle cx="160" cy="160" r="17" fill="#A8201A" stroke="#7A1612" stroke-width="2"/>
+            <circle cx="230" cy="200" r="17" fill="#A8201A" stroke="#7A1612" stroke-width="2"/>
+            <circle cx="190" cy="260" r="17" fill="#A8201A" stroke="#7A1612" stroke-width="2"/>
+            <circle cx="255" cy="140" r="14" fill="#A8201A" stroke="#7A1612" stroke-width="2"/>
+            <circle cx="140" cy="230" r="14" fill="#A8201A" stroke="#7A1612" stroke-width="2"/>
+            <circle cx="220" cy="300" r="13" fill="#A8201A" stroke="#7A1612" stroke-width="2"/>
+            <g stroke="#3C7A3C" stroke-width="5" stroke-linecap="round" opacity="0.55">
+              <line x1="175" y1="150" x2="195" y2="170"/>
+              <line x1="245" y1="190" x2="265" y2="205"/>
+              <line x1="205" y1="245" x2="225" y2="260"/>
+              <line x1="150" y1="200" x2="168" y2="218"/>
+            </g>
+          </g>
+        </svg>
+      </div>
+      <div class="fold-label">↳ folded New York style, every time</div>
+    </div>
+  </div>
+</header>
+
+<!-- ============ MARQUEE ============ -->
+<div class="marquee">
+  <div class="marquee-track" id="marqueeTrack">
+    <span>BY THE SLICE OR THE WHOLE PIE</span>
+    <span>OPEN LATE 7 DAYS A WEEK</span>
+    <span>4.6 STARS · 6,991 REVIEWS</span>
+    <span>PHILLY CHEESESTEAK TOO</span>
+    <span>BY THE SLICE OR THE WHOLE PIE</span>
+    <span>OPEN LATE 7 DAYS A WEEK</span>
+    <span>4.6 STARS · 6,991 REVIEWS</span>
+    <span>PHILLY CHEESESTEAK TOO</span>
+  </div>
+</div>
+
+<!-- ============ ABOUT ============ -->
+<section class="about" id="about">
+  <div class="section-inner about-grid">
+    <div class="about-text">
+      <span class="section-tag">The Short Version</span>
+      <h2>A downtown fixture, not a concept.</h2>
+      <p>Frank's has been folding slices in the Historic District long enough that "new" employees have been here a decade. The dough's thin, the cheese is generous, and the upstairs seating fills up fast once the after-work crowd figures out it's Tuesday again.</p>
+      <p>Regulars order without looking at the board. First-timers usually leave saying some version of the same thing: reasonably priced, genuinely clean, and the hardest-working crew on Travis Street.</p>
+      <div class="about-stats">
+        <div>
+          <div class="stat-num">4.6</div>
+          <div class="stat-label">Google Rating</div>
+        </div>
+        <div>
+          <div class="stat-num">6,991</div>
+          <div class="stat-label">Reviews</div>
+        </div>
+        <div>
+          <div class="stat-num">7</div>
+          <div class="stat-label">Days a Week</div>
+        </div>
+      </div>
+    </div>
+    <div class="about-photo">
+      <div class="tape"></div>
+      <svg viewBox="0 0 300 300" fill="none">
+        <rect x="20" y="20" width="260" height="260" fill="#2b2826" stroke="#D9A330" stroke-width="3"/>
+        <circle cx="150" cy="130" r="80" fill="#E3B14C"/>
+        <circle cx="125" cy="105" r="10" fill="#A8201A"/>
+        <circle cx="175" cy="120" r="9" fill="#A8201A"/>
+        <circle cx="150" cy="160" r="9" fill="#A8201A"/>
+        <circle cx="115" cy="155" r="7" fill="#A8201A"/>
+        <text x="150" y="250" text-anchor="middle" fill="#F5EBD8" font-family="Anton" font-size="22" letter-spacing="2">417 TRAVIS ST</text>
+        <text x="150" y="272" text-anchor="middle" fill="#D9A330" font-family="Oswald" font-size="12" letter-spacing="3">DOWNTOWN HOUSTON</text>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SLICE DIVIDER ============ -->
+<div class="slice-divider">
+  <svg viewBox="0 0 1200 90" preserveAspectRatio="none">
+    <path d="M0,90 L0,40 L60,75 L120,30 L180,75 L240,30 L300,75 L360,30 L420,75 L480,30 L540,75 L600,30 L660,75 L720,30 L780,75 L840,30 L900,75 L960,30 L1020,75 L1080,30 L1140,75 L1200,40 L1200,90 Z" fill="#221F1F"/>
+  </svg>
+</div>
+
+<!-- ============ MENU ============ -->
+<section class="menu" id="menu">
+  <div class="section-inner">
+    <div class="section-head">
+      <div>
+        <span class="section-tag">What We're Known For</span>
+        <h2>Pick Your Slice</h2>
+      </div>
+      <p>The board changes by the day, but these are the ones people drive across town for.</p>
+    </div>
+
+    <div class="menu-tabs" id="menuTabs">
+      <button class="menu-tab active" data-cat="all">All</button>
+      <button class="menu-tab" data-cat="pizza">Pizza</button>
+      <button class="menu-tab" data-cat="sides">Wings &amp; Sides</button>
+      <button class="menu-tab" data-cat="more">Off the Board</button>
+    </div>
+
+    <div class="menu-grid" id="menuGrid">
+
+      <div class="menu-item" data-cat="pizza">
+        <div>
+          <div class="menu-item-name">Pepperoni Slice <span class="badge">Popular</span></div>
+          <div class="menu-item-desc">The one everyone orders first. Crisp edge, folds clean.</div>
+        </div>
+        <div class="menu-item-price">$4.50</div>
+      </div>
+
+      <div class="menu-item" data-cat="pizza">
+        <div>
+          <div class="menu-item-name">Supreme Pizza Slice <span class="badge">Popular</span></div>
+          <div class="menu-item-desc">Loaded — sausage, peppers, onions, mushroom.</div>
+        </div>
+        <div class="menu-item-price">$5.25</div>
+      </div>
+
+      <div class="menu-item" data-cat="pizza">
+        <div>
+          <div class="menu-item-name">Meat Lovers Pizza</div>
+          <div class="menu-item-desc">Pepperoni, sausage, bacon. No apologies.</div>
+        </div>
+        <div class="menu-item-price">$5.50</div>
+      </div>
+
+      <div class="menu-item" data-cat="pizza">
+        <div>
+          <div class="menu-item-name">BBQ Chicken Pizza</div>
+          <div class="menu-item-desc">Smoky sauce base, grilled chicken, red onion.</div>
+        </div>
+        <div class="menu-item-price">$5.25</div>
+      </div>
+
+      <div class="menu-item" data-cat="pizza">
+        <div>
+          <div class="menu-item-name">Hawaiian Pizza</div>
+          <div class="menu-item-desc">Ham and pineapple. We don't argue about it.</div>
+        </div>
+        <div class="menu-item-price">$5.00</div>
+      </div>
+
+      <div class="menu-item" data-cat="pizza">
+        <div>
+          <div class="menu-item-name">Garden Veggie Pizza Slice</div>
+          <div class="menu-item-desc">Bell pepper, mushroom, onion, black olive.</div>
+        </div>
+        <div class="menu-item-price">$4.95</div>
+      </div>
+
+      <div class="menu-item" data-cat="pizza">
+        <div>
+          <div class="menu-item-name">Slice of Spinach Pizza</div>
+          <div class="menu-item-desc">Pesto base, fresh spinach, mozzarella.</div>
+        </div>
+        <div class="menu-item-price">$4.95</div>
+      </div>
+
+      <div class="menu-item" data-cat="sides">
+        <div>
+          <div class="menu-item-name">Fried Spicy Chicken Wings <span class="badge">Popular</span></div>
+          <div class="menu-item-desc">Tossed hot, served with a side of napkins.</div>
+        </div>
+        <div class="menu-item-price">$9.50</div>
+      </div>
+
+      <div class="menu-item" data-cat="sides">
+        <div>
+          <div class="menu-item-name">Onion Rings <span class="badge">Popular</span></div>
+          <div class="menu-item-desc">Thick-cut, battered, fried to order.</div>
+        </div>
+        <div class="menu-item-price">$5.75</div>
+      </div>
+
+      <div class="menu-item" data-cat="sides">
+        <div>
+          <div class="menu-item-name">Spicy Wings</div>
+          <div class="menu-item-desc">A notch hotter than the fried version.</div>
+        </div>
+        <div class="menu-item-price">$9.50</div>
+      </div>
+
+      <div class="menu-item" data-cat="sides">
+        <div>
+          <div class="menu-item-name">Chicken and Wings</div>
+          <div class="menu-item-desc">Tenders and wings sharing one plate.</div>
+        </div>
+        <div class="menu-item-price">$11.00</div>
+      </div>
+
+      <div class="menu-item" data-cat="more">
+        <div>
+          <div class="menu-item-name">Baked Lasagna with Sausage</div>
+          <div class="menu-item-desc">Layered, baked, the kind that needs a fork.</div>
+        </div>
+        <div class="menu-item-price">$10.50</div>
+      </div>
+
+      <div class="menu-item" data-cat="more">
+        <div>
+          <div class="menu-item-name">Hamburger</div>
+          <div class="menu-item-desc">Classic griddle burger, simple and fast.</div>
+        </div>
+        <div class="menu-item-price">$7.50</div>
+      </div>
+
+      <div class="menu-item" data-cat="more">
+        <div>
+          <div class="menu-item-name">Club Sandwich</div>
+          <div class="menu-item-desc">Turkey, bacon, lettuce, tomato, stacked high.</div>
+        </div>
+        <div class="menu-item-price">$8.25</div>
+      </div>
+
+      <div class="menu-item" data-cat="more">
+        <div>
+          <div class="menu-item-name">Pesto Spinach</div>
+          <div class="menu-item-desc">A lighter plate for the one person sharing a pie.</div>
+        </div>
+        <div class="menu-item-price">$6.50</div>
+      </div>
+
+    </div>
+
+    <div class="menu-note">★ Full menu and photos in store — the board never quite matches the website, and that's part of the charm.</div>
+  </div>
+</section>
+
+<!-- ============ REVIEWS ============ -->
+<section class="reviews" id="reviews">
+  <div class="section-inner">
+    <div class="section-head">
+      <div>
+        <span class="section-tag">Word on Travis Street</span>
+        <h2>What People Keep Saying</h2>
+      </div>
+      <p>Pulled straight from our Google reviews — typos and all.</p>
+    </div>
+    <div class="review-grid">
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">"This is the best pizza place in Houston. Reasonably priced, super clean, and the hardest working employees. Thank you for an awesome meal."</p>
+        <div class="review-foot"><span>Google Review</span><span>Verified</span></div>
+      </div>
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">"If you're looking to have a slice or two, or buy a whole pizza, Frank's is the place. They're open seven days a week and very reasonably priced."</p>
+        <div class="review-foot"><span>Google Review</span><span>Verified</span></div>
+      </div>
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">"First time going here was awesome. The variety of food and the atmosphere was incredible — not to mention the absolute reasonable prices."</p>
+        <div class="review-foot"><span>Google Review</span><span>Verified</span></div>
+      </div>
+    </div>
+    <div class="reviews-cta">
+      <a href="https://www.google.com/maps" target="_blank" rel="noopener">Read all 6,991 reviews on Google →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ VISIT ============ -->
+<section class="visit" id="visit">
+  <div class="section-inner">
+    <div class="section-head">
+      <div>
+        <span class="section-tag">Find Us</span>
+        <h2>Right in the Historic District</h2>
+      </div>
+    </div>
+    <div class="visit-grid">
+      <div class="visit-info">
+        <div class="info-row">
+          <div class="info-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-7.5-7-12a7 7 0 1114 0c0 4.5-7 12-7 12z"/><circle cx="12" cy="9" r="2.5"/></svg>
+          </div>
+          <div>
+            <div class="info-label">Address</div>
+            <div class="info-value">417 Travis St, Houston, TX 77002</div>
+          </div>
+        </div>
+        <div class="info-row">
+          <div class="info-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+          </div>
+          <div>
+            <div class="info-label">Phone</div>
+            <div class="info-value"><a href="tel:+17132255656">(713) 225-5656</a></div>
+          </div>
+        </div>
+        <div class="info-row">
+          <div class="info-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+          </div>
+          <div class="hours-table">
+            <div><span class="day">Sun</span><span>11 AM – 11 PM</span></div>
+            <div><span class="day">Mon – Wed</span><span>11 AM – 11 PM</span></div>
+            <div><span class="day">Thu</span><span>11 AM – 1 AM</span></div>
+            <div><span class="day">Fri – Sat</span><span>11 AM – 3 AM</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="visit-map">
+        <iframe src="https://www.google.com/maps?q=417+Travis+St,+Houston,+TX+77002&output=embed" loading="lazy" allowfullscreen title="Map to Frank's Pizza"></iframe>
+        <div class="map-pin-card">
+          <div class="pin-name">Frank's Pizza</div>
+          <div class="pin-addr">417 Travis St · Downtown Houston</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer id="order">
+  <div class="footer-grid">
+    <div>
+      <div class="footer-brand">FRANK'S<span>.</span></div>
+      <p class="footer-desc">Giant slices, no fuss, in the heart of Downtown Houston's Historic District. Open seven days a week, late most nights.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Order</h4>
+      <a href="tel:+17132255656">Call to Order — (713) 225-5656</a>
+      <a href="#menu">Browse the Menu</a>
+      <a href="#visit">Get Directions</a>
+    </div>
+    <div class="footer-col">
+      <h4>Visit</h4>
+      <a href="#visit">417 Travis St, Houston, TX 77002</a>
+      <a href="#reviews">Read Our Reviews</a>
+      <a href="mailto:office@frankspizza.com">office@frankspizza.com</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 Frank's Pizza. All rights reserved.</span>
+    <span>417 Travis St, Houston, TX 77002</span>
+  </div>
+</footer>
+
+<script>
+// Mobile menu toggle
+const navToggle = document.getElementById('navToggle');
+const mobilePanel = document.getElementById('mobilePanel');
+const mobileClose = document.getElementById('mobileClose');
+navToggle.addEventListener('click', () => mobilePanel.classList.add('open'));
+mobileClose.addEventListener('click', () => mobilePanel.classList.remove('open'));
+mobilePanel.querySelectorAll('a').forEach(a => a.addEventListener('click', () => mobilePanel.classList.remove('open')));
+
+// Menu category filter
+const tabs = document.querySelectorAll('.menu-tab');
+const items = document.querySelectorAll('.menu-item');
+tabs.forEach(tab => {
+  tab.addEventListener('click', () => {
+    tabs.forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+    const cat = tab.dataset.cat;
+    items.forEach(item => {
+      if (cat === 'all' || item.dataset.cat === cat) {
+        item.classList.remove('hidden');
+      } else {
+        item.classList.add('hidden');
+      }
+    });
+  });
+});
+
+// Open/closed status based on real time (Houston is Central Time, approximate via browser)
+function updateStatus(){
+  const topbar = document.getElementById('topbar');
+  const statusText = document.getElementById('status-text');
+  const now = new Date();
+  const day = now.getDay(); // 0 Sun .. 6 Sat
+  const hour = now.getHours() + now.getMinutes()/60;
+
+  // hours: Sun-Wed 11-23, Thu 11-25(1am), Fri-Sat 11-27(3am)
+  let openHour = 11, closeHour = 23;
+  if(day === 4) closeHour = 25;
+  if(day === 5 || day === 6) closeHour = 27;
+
+  // also handle the early-morning tail from previous day's late close
+  let isOpen = (hour >= openHour && hour < closeHour);
+  if(!isOpen && hour < 4){
+    const prevDay = (day + 6) % 7;
+    let prevClose = 23;
+    if(prevDay === 4) prevClose = 25;
+    if(prevDay === 5 || prevDay === 6) prevClose = 27;
+    if(hour + 24 < prevClose) isOpen = true;
+  }
+
+  if(isOpen){
+    topbar.classList.remove('closed');
+    let closeLabel = closeHour > 24 ? (closeHour - 24) + ' AM' : (closeHour > 12 ? (closeHour-12)+' PM' : closeHour+' AM');
+    statusText.textContent = 'Open until ' + closeLabel;
+  } else {
+    topbar.classList.add('closed');
+    statusText.textContent = 'Closed now · Opens 11 AM';
+  }
+}
+updateStatus();
+
+// Subtle hero slice tilt on mouse move (desktop only, respects reduced motion)
+const sliceGroup = document.getElementById('sliceGroup');
+const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+if(!prefersReduced && window.innerWidth > 860){
+  document.querySelector('.hero').addEventListener('mousemove', (e) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = (e.clientX - rect.left) / rect.width - 0.5;
+    const y = (e.clientY - rect.top) / rect.height - 0.5;
+    sliceGroup.style.transform = `rotate(${x*6}deg) translateY(${y*8}px)`;
+  });
+}
+</script>
+
+</body>
+</html>
